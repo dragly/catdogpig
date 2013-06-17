@@ -13,12 +13,14 @@ goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.MoveTo');
 goog.require('catdogpig.App');
+goog.require('catdogpig.PauseScene');
 
 
 // entrypoint
 catdogpig.start = function(){
 
     catdogpig.director = new lime.Director(document.body,1080,1920);
+    catdogpig.director.pauseClassFactory = catdogpig.PauseScene;
     catdogpig.director.makeMobileWebAppCapable();
 //    catdogpig.loadMenuScene();
     catdogpig.loadApp();

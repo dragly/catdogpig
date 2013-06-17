@@ -3,22 +3,38 @@ goog.provide("catdogpig.scenes.GameScene")
 goog.require('lime.Scene');
 goog.require('lime.Sprite')
 
-catdogpig.scenes.GameScene = function(director) {
+catdogpig.scenes.GameScene = function() {
     lime.Scene.call(this);
 
-    this.test = 3;
-
-    this.pigBox = new lime.Sprite().setFill("images/pig1.jpg").setPosition(200, 1920-200).setSize(300,200);
+    this.pigBox = new lime.Sprite().setFill("images/pig2.jpg").setPosition(200, 1920-200).setSize(300,200);
+    this.pigBox.showDropHighlight = function() {
+        this.runAction(new lime.animation.FadeTo(.6).setDuration(.3));
+    }
+    this.pigBox.hideDropHighlight = function() {
+        this.runAction(new lime.animation.FadeTo(1.0).setDuration(.3));
+    }
 
     this.pigBox.animalType = "pig";
     this.appendChild(this.pigBox);
 
     this.catBox = new lime.Sprite().setFill("images/cat1.jpg").setPosition(500, 1920-200).setSize(300,200);
+    this.catBox.showDropHighlight = function() {
+        this.runAction(new lime.animation.FadeTo(.6).setDuration(.3));
+    }
+    this.catBox.hideDropHighlight = function() {
+        this.runAction(new lime.animation.FadeTo(1.0).setDuration(.3));
+    }
 
     this.catBox.animalType = "cat";
     this.appendChild(this.catBox);
 
     this.dogBox = new lime.Sprite().setFill("images/dog1.jpg").setPosition(800, 1920-200).setSize(300,200);
+    this.dogBox.showDropHighlight = function() {
+        this.runAction(new lime.animation.FadeTo(.6).setDuration(.3));
+    }
+    this.dogBox.hideDropHighlight = function() {
+        this.runAction(new lime.animation.FadeTo(1.0).setDuration(.3));
+    }
 
     this.dogBox.animalType = "dog";
     this.appendChild(this.dogBox);
@@ -30,6 +46,14 @@ catdogpig.scenes.GameScene = function(director) {
     this.currentAnimal = null;
 
     this.allowDrag = true;
+
+    this.pauseButton = new lime.GlossyButton("Pause").setFontSize(20).setSize(100,50).setPosition(100,100);
+
+    goog.events.listen(this.pauseButton,['click'], function(e) {
+        catdogpig.director.setPaused(true);
+        lime.updateDirtyObjects();
+    });
+    this.appendChild(this.pauseButton);
 }
 
 goog.inherits(catdogpig.scenes.GameScene, lime.Scene);
@@ -46,7 +70,7 @@ catdogpig.scenes.GameScene.prototype.addRandomAnimal = function() {
     var randomType = parseInt(Math.random() * 3);
     var randomAnimal = animals[randomType];
     var randomNumber = parseInt(Math.random() * 3) + 1;
-    var parentSize = this.getParent().getSize();
+    var parentSize = catdogpig.director.getSize();
     var animal = new lime.Sprite().setFill("images/" + randomAnimal + randomNumber + ".jpg").setPosition(parentSize.width / 2, parentSize.height / 2).setScale(1).setOpacity(0);
     animal.animalType = randomAnimal;
     this.appendChild(animal);

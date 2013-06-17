@@ -10,16 +10,13 @@ goog.require('lime.animation.Spawn');
 goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.MoveTo');
-goog.require('catdogpig.Game');
+goog.require('catdogpig.scenes.MainMenuScene');
+//goog.require('catdogpig.Game');
 
-catdogpig.App = function(director) {
-    this.gameScene = new catdogpig.scenes.GameScene(director);
-    this.director = director;
-    console.log(this.gameScene.test);
+catdogpig.App = function() {
 }
 
 catdogpig.App.prototype.exec = function() {
-    console.log(this.gameScene)
-    this.director.replaceScene(this.gameScene);
-    this.gameScene.start();
+    var mainMenuScene = new catdogpig.scenes.MainMenuScene();
+    catdogpig.director.replaceScene(mainMenuScene);
 }
