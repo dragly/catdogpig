@@ -2,6 +2,8 @@ goog.provide("catdogpig.scenes.GameScene")
 
 goog.require('lime.Scene');
 goog.require('lime.Sprite')
+goog.require('lime.animation.ColorTo')
+goog.require('lime.animation.Sequence')
 
 catdogpig.scenes.GameScene = function() {
     lime.Scene.call(this);
@@ -132,12 +134,22 @@ catdogpig.scenes.GameScene.prototype.setDragAnimal = function(target) {
                             new lime.animation.FadeTo(0),
                             new lime.animation.ScaleTo(0)
                             );
+                dropTarget.runAction(new lime.animation.Sequence(
+                                         new lime.animation.ColorTo("#0F0"),
+                                         new lime.animation.ColorTo("#AAA")
+                                         )
+                                     );
             } else {
                 self.label.setText("You failed!");
                 animation = new lime.animation.Spawn(
                             new lime.animation.FadeTo(0),
                             new lime.animation.ScaleTo(20)
                             );
+                dropTarget.runAction(new lime.animation.Sequence(
+                                         new lime.animation.ColorTo("#F00"),
+                                         new lime.animation.ColorTo("#AAA")
+                                         )
+                                     );
             }
             goog.events.listen(animation, lime.animation.Event.STOP,function(){
                 self.removeChild(target);
